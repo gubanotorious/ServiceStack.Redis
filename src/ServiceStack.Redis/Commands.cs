@@ -230,6 +230,12 @@ namespace ServiceStack.Redis
         public readonly static byte[] Miles = RedisGeoUnit.Miles.ToUtf8Bytes();
         public readonly static byte[] Feet = RedisGeoUnit.Feet.ToUtf8Bytes();
 
+        // Stream commands
+        public readonly static byte[] XAdd = "XADD".ToUtf8Bytes();
+        public readonly static byte[] XLen = "XLEN".ToUtf8Bytes();
+        public readonly static byte[] XRange = "XRANGE".ToUtf8Bytes();
+        public readonly static byte[] XRead = "XREAD".ToUtf8Bytes();
+
         public static byte[] GetUnit(string unit)
         {
             if (unit == null)

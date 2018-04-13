@@ -1948,6 +1948,37 @@ namespace ServiceStack.Redis
 
         #endregion
 
+        #region Stream Operations
+
+        public string XAdd(string streamName, string key, byte[] data)
+        {
+            //XADD mystream * data1:23523523 data2:12.3
+            //* = auto generated id, otherwise use specified key
+            return SendExpectString(Commands.XAdd, streamName.ToUtf8Bytes(), key.ToUtf8Bytes(), data);
+        }
+
+        public long XLen(string streamName)
+        {
+            //XLEN mystream
+            return SendExpectLong(Commands.XLen, streamName.ToUtf8Bytes());
+        }
+
+        public byte[] XRange(string streamName, string start, string end)
+        {
+            //XRANGE mystream - +  (gets all), 
+            //XRANGE mystream 1523598627332-0 1523598632996-0 (gets range by id)
+            //can also use timestamp by MS ie: 1523598627332 since redis is done by time MS for auto-generated id's
+            return SendExpectData(Commands.XRange, streamName.ToUtf8Bytes(), start.ToUtf8Bytes(), end.ToUtf8Bytes());
+        }
+
+        public byte[] XRead(string streamName, string key, int maxResults)
+        {
+            //XREAD COUNT 100 STREAMS mystream 1523598632996-0
+            return SendExpectData(Commands.XRead, Commands.Count, maxResults.ToUtf8Bytes(), streamName.ToUtf8Bytes(), key.ToUtf8Bytes());
+        }
+
+        #endregion
+
 
         #region Hash Operations
 
